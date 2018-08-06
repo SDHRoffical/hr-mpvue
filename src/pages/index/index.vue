@@ -1,72 +1,41 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
-    </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
+  <div class="container">
+      <!-- 图片引用的两种方式 -->
+      <!-- <img class="girl" :src="imgSrc + 'static/img/girl.png'" alt=""> -->
+      <img class="logo" src="../../../static/img/logo.png" alt="">
+    <card :text="motto"></card>
     <form class="form-container">
       <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
     </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
+    <!-- 路由跳转 -->
+    <a @click="gotoGame('pages/counter/main')" class="counter">去往Vuex示例页面</a>
+    <a @click="gotoGame('pages/logs/main')" class="counter">去往logs页面</a>
   </div>
 </template>
 
 <script>
+// 组件引用
 import card from '@/components/card'
 
 export default {
   data () {
     return {
-      motto: 'Hello World',
-      userInfo: {}
+      motto: 'Hello World'
     }
   },
-
   components: {
     card
   },
-
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+    gotoGame (path) {
+      this.reLaunchPageTo(this.router + path)
     }
-  },
-
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
   }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -74,9 +43,9 @@ export default {
 }
 
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
+  width: 128/7.5vw;
+  height: 128/7.5vw;
+  margin: 20/7.5vw;
   border-radius: 50%;
 }
 
@@ -93,6 +62,16 @@ export default {
   padding: 0 12px;
   margin-bottom: 5px;
   border: 1px solid #ccc;
+  height:25px;
+  text-overflow:clip;
+  overflow:hidden;
+  white-space:nowrap;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-user-select: none;
+  -moz-user-focus: none;
+  -moz-user-select: none;
+  -webkit-appearance:none;
+  outline: none;
 }
 
 .counter {
@@ -102,4 +81,13 @@ export default {
   color: blue;
   border: 1px solid blue;
 }
+.container .girl{
+  width: 275px;
+  height: 400px;
+}
+.container .logo{
+  width: 200px;
+  height: 200px;
+}
+
 </style>
